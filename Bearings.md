@@ -34,7 +34,8 @@ Without the item, those lines are hidden (not blanked or replaced with "???"), s
 shorter.
 
 Also covered:
-- **F3+C** (copy location) only works while you have a compass.
+- **F3+C** (copy location) and **F3+I** need a compass when `onlyBasicInfo` is off. With it on, they are op-only.
+- With `onlyBasicInfo` on, non-ops also lose F3+L, F3+N and F3+F4, and those entries (plus F3+C and F3+I) are left out of the F3+Q help.
 - Vanilla F3 doesn't show the time of day at all, so the clock adds a line rather than revealing
   one. Format TBD (see open questions).
 - Works with **BetterF3** (in the pack) as well as vanilla F3. BetterF3 builds its lines from
