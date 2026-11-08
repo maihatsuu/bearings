@@ -29,6 +29,9 @@ An item "counts" if it's anywhere in your inventory (hotbar, main inventory, off
 | Compass | XYZ, block position, chunk, facing direction, targeted block/fluid position |
 | Clock | Time of day (and day number) |
 | Recovery compass | Last death location (dimension + XYZ) |
+| Map (empty or filled) | Biome, while `onlyBasicInfo` is on |
+
+With `onlyBasicInfo` on, a compass unlocks only XYZ and facing.
 
 Without the item, those lines are hidden (not blanked or replaced with "???"), so F3 just looks
 shorter.
@@ -51,9 +54,10 @@ Also covered:
 | `beltSlots` | 3 | Size of the belt slot (written to the Trinkets data on load, or fixed at 3 if that's simpler). |
 | `onlyBasicInfo` | true | F3 shows only the game version, FPS, system stats and whatever carried items unlock. Also disables the F3+1/2/3 debug charts. |
 | `opsSeeEverything` | true | Operators (permission level 2+, including singleplayer with cheats on) see full F3 without items, and `onlyBasicInfo` doesn't apply to them. |
+| `opsOnlyInCreative` | false | Operators only get that full F3 while in Creative mode. |
 
-Item lists come from item tags, `bearings:shows_coordinates`, `bearings:shows_time` and
-`bearings:shows_death_location`, so datapacks/other mods can add items (e.g. a modded sextant).
+Item lists come from item tags, `bearings:shows_coordinates`, `bearings:shows_time`,
+`bearings:shows_death_location` and `bearings:shows_biome`, so datapacks/other mods can add items (e.g. a modded sextant).
 
 ## Open questions
 - Name: Bearings? Wayfinder? Waypoint?

@@ -18,6 +18,7 @@ public final class BetterF3Gating {
 		"player_coords", "block_coords", "chunk_relative_coords", "chunk_coords",
 		"facing", "rotation", "targeted_block", "targeted_fluid"
 	);
+	private static final Set<String> BASIC_COORDINATE_LINES = Set.of("player_coords", "facing", "rotation");
 	private static final Set<String> TIME_LINES = Set.of("day_ticks", "days_played");
 
 	private BetterF3Gating() {
@@ -25,16 +26,19 @@ public final class BetterF3Gating {
 
 	/** Takes a snapshot of the rules, so a module checks the inventory once rather than once per line. */
 	public static Rules currentRules() {
-		return new Rules(DebugGating.coordinatesVisible(), DebugGating.timeVisible(), DebugGating.otherInfoHidden());
+		return new Rules(DebugGating.coordinatesVisible(), DebugGating.timeVisible(), DebugGating.biomeVisible(), DebugGating.otherInfoHidden());
 	}
 
-	public record Rules(boolean coordinates, boolean time, boolean hideOtherInfo) {
+	public record Rules(boolean coordinates, boolean time, boolean biome, boolean hideOtherInfo) {
 		public boolean hides(BaseModule module, String lineId) {
 			if (COORDINATE_LINES.contains(lineId)) {
-				return !coordinates;
+				return !coordinates || (hideOtherInfo && !BASIC_COORDINATE_LINES.contains(lineId));
 			}
 			if (TIME_LINES.contains(lineId)) {
 				return !time;
+			}
+			if (lineId.equals("biome")) {
+				return hideOtherInfo && !biome;
 			}
 			return hideOtherInfo && !isBasic(module);
 		}

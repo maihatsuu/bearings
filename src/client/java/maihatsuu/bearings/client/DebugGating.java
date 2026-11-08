@@ -18,14 +18,21 @@ public final class DebugGating {
 		ChatFormatting.UNDERLINE + "Targeted Fluid: "
 	);
 	private static final String TARGETED_SECTION = ChatFormatting.UNDERLINE + "Targeted ";
-	private static final List<String> ITEM_LINES = List.of("Time: ", "Last Death: ");
+	private static final List<String> ITEM_LINES = List.of("XYZ: ", "Facing: ", "Time: ", "Last Death: ");
 
 	private DebugGating() {
 	}
 
 	/** Permission level 2 covers server operators and singleplayer worlds with cheats enabled. */
 	private static boolean isExempt(LocalPlayer player) {
-		return BearingsClient.config.opsSeeEverything && player != null && player.hasPermissions(2);
+		BearingsConfig config = BearingsClient.config;
+		return config.opsSeeEverything && player != null && player.hasPermissions(2)
+			&& (!config.opsOnlyInCreative || player.isCreative());
+	}
+
+	public static boolean biomeVisible() {
+		LocalPlayer player = Minecraft.getInstance().player;
+		return player != null && Instrument.MAP.isCarriedBy(player);
 	}
 
 	public static boolean coordinatesVisible() {
@@ -79,8 +86,9 @@ public final class DebugGating {
 	}
 
 	private static void keepBasicGameInformation(List<String> lines) {
+		boolean showBiome = biomeVisible();
 		lines.removeIf(line -> !line.startsWith("Minecraft ") && !line.matches("\\d+ fps.*")
-			&& !startsWithAny(line, COORDINATE_LINES) && !startsWithAny(line, ITEM_LINES));
+			&& !startsWithAny(line, ITEM_LINES) && !(showBiome && line.startsWith("Biome: ")));
 		if (lines.size() > 2) {
 			lines.add(2, "");
 		}
@@ -90,18 +98,12 @@ public final class DebugGating {
 		if (otherInfoHidden()) {
 			int firstTarget = indexOfPrefix(lines, TARGETED_SECTION);
 			if (firstTarget >= 0) {
-				List<String> headings = lines.subList(firstTarget, lines.size()).stream()
-					.filter(line -> startsWithAny(line, COORDINATE_LINES))
-					.toList();
 				// Also removes the blank line above the first section.
 				lines.subList(firstTarget - 1, lines.size()).clear();
-				if (coordinatesVisible() && !headings.isEmpty()) {
-					lines.add("");
-					lines.addAll(headings);
-				}
 			}
+		} else {
+			filterPosition(lines);
 		}
-		filterPosition(lines);
 	}
 
 	private static void filterPosition(List<String> lines) {

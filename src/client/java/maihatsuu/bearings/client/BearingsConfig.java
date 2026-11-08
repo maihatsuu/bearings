@@ -21,6 +21,7 @@ public final class BearingsConfig {
 	public boolean showDeathLocation = true;
 	public boolean onlyBasicInfo = true;
 	public boolean opsSeeEverything = true;
+	public boolean opsOnlyInCreative = false;
 
 	/** Reads the config, then writes it back so new options appear in the file. */
 	public static BearingsConfig load() {
