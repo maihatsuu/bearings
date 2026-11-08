@@ -20,6 +20,9 @@
 		],
 		"client": [
 			"maihatsuu.bearings.client.BearingsClient"
+		],
+		"modmenu": [
+			"maihatsuu.bearings.client.compat.ModMenuIntegration"
 		]
 	},
 	"mixins": [
@@ -36,6 +39,8 @@
 	},
 	"suggests": {
 		"trinkets": "*",
-		"betterf3": "*"
+		"betterf3": "*",
+		"modmenu": "*",
+		"cloth-config": "*"
 	}
 }

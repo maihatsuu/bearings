@@ -31,7 +31,9 @@ The code targets Java 21 (`options.release = 21`); CI builds with JDK 25 using `
 
 ## Optional integrations
 
-Trinkets and BetterF3 are `modCompileOnly`, and the mod must load without either.
+Trinkets, BetterF3, Mod Menu and Cloth Config are `modCompileOnly`, and the mod must load without any of them.
+
+- **Mod Menu and Cloth Config**: `ModMenuIntegration` only references `BearingsConfigScreen`, the sole Cloth Config user, after checking the mod is loaded. A new config option needs a toggle there and strings in `assets/bearings/lang/en_us.json`.
 
 - **Trinkets**: belt slots are data only (`data/trinkets/...`). Code touching its API stays in `TrinketsCompat`, which is only loaded after an `isModLoaded` check.
 - **BetterF3** replaces vanilla's left and right columns, so `BetterF3Gating` hides its lines by id. `BearingsMixinPlugin` skips the BetterF3 mixin when the mod is absent. Lines added to `getGameInformation` (Time, Last Death) reach BetterF3 through its Misc Left module.

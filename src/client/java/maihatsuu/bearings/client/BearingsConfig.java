@@ -23,9 +23,13 @@ public final class BearingsConfig {
 	public boolean opsSeeEverything = true;
 	public boolean opsOnlyInCreative = false;
 
+	private static Path path() {
+		return FabricLoader.getInstance().getConfigDir().resolve("bearings.json");
+	}
+
 	/** Reads the config, then writes it back so new options appear in the file. */
 	public static BearingsConfig load() {
-		Path path = FabricLoader.getInstance().getConfigDir().resolve("bearings.json");
+		Path path = path();
 		BearingsConfig config = null;
 
 		if (Files.exists(path)) {
@@ -42,12 +46,16 @@ public final class BearingsConfig {
 			config = new BearingsConfig();
 		}
 
+		config.save();
+		return config;
+	}
+
+	public void save() {
+		Path path = path();
 		try (Writer writer = Files.newBufferedWriter(path)) {
-			GSON.toJson(config, writer);
+			GSON.toJson(this, writer);
 		} catch (IOException e) {
 			Bearings.LOGGER.error("Could not write {}", path, e);
 		}
-
-		return config;
 	}
 }

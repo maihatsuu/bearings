@@ -5,9 +5,17 @@ plugins {
 
 repositories {
 	maven {
-		name = 'TerraformersMC' // Trinkets
+		name = 'TerraformersMC' // Trinkets, Mod Menu
 		url = 'https://maven.terraformersmc.com/'
-		content { includeGroup 'dev.emi' }
+		content {
+			includeGroup 'dev.emi'
+			includeGroup 'com.terraformersmc'
+		}
+	}
+	maven {
+		name = 'Shedaniel' // Cloth Config
+		url = 'https://maven.shedaniel.me/'
+		content { includeGroup 'me.shedaniel.cloth' }
 	}
 	maven {
 		name = 'Ladysnake' // Cardinal Components, required by Trinkets
@@ -48,10 +56,14 @@ dependencies {
 	// Optional integrations: compiled against, never bundled or required.
 	modCompileOnly("dev.emi:trinkets:${project.trinkets_version}") { exclude group: 'net.fabricmc.fabric-api' }
 	modCompileOnly "maven.modrinth:betterf3:${project.betterf3_version}"
+	modCompileOnly("com.terraformersmc:modmenu:${project.modmenu_version}") { transitive = false }
+	modCompileOnly("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") { exclude group: 'net.fabricmc.fabric-api' }
 
 	// Pass -PnoCompat to test in a dev environment without them, or -PnoBetterF3 to drop only BetterF3.
 	if (!project.hasProperty('noCompat')) {
 		modLocalRuntime("dev.emi:trinkets:${project.trinkets_version}") { exclude group: 'net.fabricmc.fabric-api' }
+		modLocalRuntime("com.terraformersmc:modmenu:${project.modmenu_version}") { transitive = false }
+		modLocalRuntime("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") { exclude group: 'net.fabricmc.fabric-api' }
 		if (!project.hasProperty('noBetterF3')) {
 			modLocalRuntime "maven.modrinth:betterf3:${project.betterf3_version}"
 		}

@@ -1,0 +1,16 @@
+{
+	"config.bearings.title": "Bearings",
+	"config.bearings.general": "General",
+	"config.bearings.requireCompassForCoordinates": "Require Compass for Coordinates",
+	"config.bearings.requireCompassForCoordinates.tooltip": "Hide coordinates and facing unless you carry a compass.",
+	"config.bearings.requireClockForTime": "Require Clock for Time",
+	"config.bearings.requireClockForTime.tooltip": "Show the time and moon phase only while you carry a clock.",
+	"config.bearings.showDeathLocation": "Show Death Location",
+	"config.bearings.showDeathLocation.tooltip": "A recovery compass shows your last death location.",
+	"config.bearings.onlyBasicInfo": "Only Basic Info",
+	"config.bearings.onlyBasicInfo.tooltip": "F3 shows only the game version, FPS, system stats and what your items unlock. Also disables debug charts and location, profiling and game mode shortcuts.",
+	"config.bearings.opsSeeEverything": "Operators See Everything",
+	"config.bearings.opsSeeEverything.tooltip": "Operators, and singleplayer worlds with cheats on, get the full F3 without items.",
+	"config.bearings.opsOnlyInCreative": "Operators Only in Creative",
+	"config.bearings.opsOnlyInCreative.tooltip": "Operators only get the full F3 while in Creative mode."
+}
