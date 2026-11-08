@@ -25,7 +25,7 @@ public class BetterF3BaseModuleMixin {
 	private void bearings$hideLines(boolean reducedDebug, CallbackInfoReturnable<?> cir) {
 		BetterF3Gating.Rules rules = BetterF3Gating.currentRules();
 		for (DebugLine line : ((BaseModule) (Object) this).lines()) {
-			if (line.active && rules.hides(line.id())) {
+			if (line.active && rules.hides((BaseModule) (Object) this, line.id())) {
 				line.active = false;
 				bearings$hiddenLines.add(line);
 			}

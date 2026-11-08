@@ -19,7 +19,8 @@ public final class BearingsConfig {
 	public boolean requireCompassForCoordinates = true;
 	public boolean requireClockForTime = true;
 	public boolean showDeathLocation = true;
-	public boolean hideOtherInfo = false;
+	public boolean onlyBasicInfo = true;
+	public boolean opsSeeEverything = true;
 
 	/** Reads the config, then writes it back so new options appear in the file. */
 	public static BearingsConfig load() {

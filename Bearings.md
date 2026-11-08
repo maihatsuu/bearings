@@ -46,7 +46,8 @@ Also covered:
 | `requireClockForTime` | true | Show the time line only with a clock. |
 | `showDeathLocation` | true | Recovery compass shows your last death location. |
 | `beltSlots` | 3 | Size of the belt slot (written to the Trinkets data on load, or fixed at 3 if that's simpler). |
-| `hideOtherInfo` | false | Optional extra: also hide other "cheaty" F3 info (biome, light levels, mob counts…). |
+| `onlyBasicInfo` | true | F3 shows only the game version, FPS, system stats and whatever carried items unlock. |
+| `opsSeeEverything` | true | Operators (permission level 2+, including singleplayer with cheats on) see full F3 without items, and `onlyBasicInfo` doesn't apply to them. |
 
 Item lists come from item tags, `bearings:shows_coordinates`, `bearings:shows_time` and
 `bearings:shows_death_location`, so datapacks/other mods can add items (e.g. a modded sextant).

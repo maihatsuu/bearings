@@ -18,6 +18,6 @@ public class DebugScreenOverlayMixin {
 
 	@Inject(method = "getSystemInformation", at = @At("RETURN"))
 	private void bearings$filterSystemInformation(CallbackInfoReturnable<List<String>> cir) {
-		DebugGating.filterPosition(cir.getReturnValue());
+		DebugGating.filterSystemInformation(cir.getReturnValue());
 	}
 }

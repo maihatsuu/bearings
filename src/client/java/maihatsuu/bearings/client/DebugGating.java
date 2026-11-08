@@ -17,29 +17,37 @@ public final class DebugGating {
 		ChatFormatting.UNDERLINE + "Targeted Block: ",
 		ChatFormatting.UNDERLINE + "Targeted Fluid: "
 	);
-	private static final List<String> OTHER_INFO_LINES = List.of(
-		"Client Light: ", "CH ", "SH ", "Biome: ", "Local Difficulty: ", "SC: ", "NoiseRouter ", "Biome builder "
-	);
+	private static final String TARGETED_SECTION = ChatFormatting.UNDERLINE + "Targeted ";
+	private static final List<String> ITEM_LINES = List.of("Time: ", "Last Death: ");
 
 	private DebugGating() {
 	}
 
+	/** Permission level 2 covers server operators and singleplayer worlds with cheats enabled. */
+	private static boolean isExempt(LocalPlayer player) {
+		return BearingsClient.config.opsSeeEverything && player != null && player.hasPermissions(2);
+	}
+
 	public static boolean coordinatesVisible() {
 		LocalPlayer player = Minecraft.getInstance().player;
-		return !BearingsClient.config.requireCompassForCoordinates
+		return !BearingsClient.config.requireCompassForCoordinates || isExempt(player)
 			|| (player != null && Instrument.COMPASS.isCarriedBy(player));
 	}
 
 	public static boolean timeVisible() {
 		LocalPlayer player = Minecraft.getInstance().player;
-		return !BearingsClient.config.requireClockForTime
+		return !BearingsClient.config.requireClockForTime || isExempt(player)
 			|| (player != null && Instrument.CLOCK.isCarriedBy(player));
 	}
 
 	public static boolean deathLocationVisible() {
 		LocalPlayer player = Minecraft.getInstance().player;
 		return BearingsClient.config.showDeathLocation
-			&& player != null && Instrument.RECOVERY_COMPASS.isCarriedBy(player);
+			&& player != null && (isExempt(player) || Instrument.RECOVERY_COMPASS.isCarriedBy(player));
+	}
+
+	public static boolean otherInfoHidden() {
+		return BearingsClient.config.onlyBasicInfo && !isExempt(Minecraft.getInstance().player);
 	}
 
 	public static void filterGameInformation(List<String> lines) {
@@ -65,13 +73,38 @@ public final class DebugGating {
 		if (!showTime) {
 			lines.replaceAll(line -> line.startsWith("Local Difficulty: ") ? line.replaceFirst(" \\(Day \\d+\\)$", "") : line);
 		}
-		if (BearingsClient.config.hideOtherInfo) {
-			lines.removeIf(line -> startsWithAny(line, OTHER_INFO_LINES));
+		if (otherInfoHidden()) {
+			keepBasicGameInformation(lines);
 		}
 	}
 
-	/** Removes position lines. The targeted block's section is in the system list, so this is used for both sides. */
-	public static void filterPosition(List<String> lines) {
+	private static void keepBasicGameInformation(List<String> lines) {
+		lines.removeIf(line -> !line.startsWith("Minecraft ") && !line.matches("\\d+ fps.*")
+			&& !startsWithAny(line, COORDINATE_LINES) && !startsWithAny(line, ITEM_LINES));
+		if (lines.size() > 2) {
+			lines.add(2, "");
+		}
+	}
+
+	public static void filterSystemInformation(List<String> lines) {
+		if (otherInfoHidden()) {
+			int firstTarget = indexOfPrefix(lines, TARGETED_SECTION);
+			if (firstTarget >= 0) {
+				List<String> headings = lines.subList(firstTarget, lines.size()).stream()
+					.filter(line -> startsWithAny(line, COORDINATE_LINES))
+					.toList();
+				// Also removes the blank line above the first section.
+				lines.subList(firstTarget - 1, lines.size()).clear();
+				if (coordinatesVisible() && !headings.isEmpty()) {
+					lines.add("");
+					lines.addAll(headings);
+				}
+			}
+		}
+		filterPosition(lines);
+	}
+
+	private static void filterPosition(List<String> lines) {
 		if (!coordinatesVisible()) {
 			lines.removeIf(line -> startsWithAny(line, COORDINATE_LINES));
 		}
