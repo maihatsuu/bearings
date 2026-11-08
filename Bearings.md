@@ -16,6 +16,8 @@ settings are shared.
   - `data/trinkets/slots/legs/belt.json` with `"amount": 3`.
   - `data/trinkets/tags/item/legs/belt.json` adding `minecraft:clock`, `minecraft:compass` and
     `minecraft:recovery_compass` (`"replace": false`).
+  - `data/trinkets/entities/bearings.json` assigning `legs/belt` to `player`. Trinkets gives
+    entities no slots by default.
 - Trinkets is a soft dependency: without it there are no belt slots, and only items in your
   inventory count.
 
@@ -46,7 +48,7 @@ Also covered:
 | `requireClockForTime` | true | Show the time line only with a clock. |
 | `showDeathLocation` | true | Recovery compass shows your last death location. |
 | `beltSlots` | 3 | Size of the belt slot (written to the Trinkets data on load, or fixed at 3 if that's simpler). |
-| `onlyBasicInfo` | true | F3 shows only the game version, FPS, system stats and whatever carried items unlock. |
+| `onlyBasicInfo` | true | F3 shows only the game version, FPS, system stats and whatever carried items unlock. Also disables the F3+1/2/3 debug charts. |
 | `opsSeeEverything` | true | Operators (permission level 2+, including singleplayer with cheats on) see full F3 without items, and `onlyBasicInfo` doesn't apply to them. |
 
 Item lists come from item tags, `bearings:shows_coordinates`, `bearings:shows_time` and

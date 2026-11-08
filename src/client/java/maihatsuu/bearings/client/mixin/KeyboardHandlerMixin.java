@@ -15,6 +15,8 @@ public class KeyboardHandlerMixin {
 	private void bearings$blockLocationCopy(int key, CallbackInfoReturnable<Boolean> cir) {
 		if ((key == GLFW.GLFW_KEY_C || key == GLFW.GLFW_KEY_I) && !DebugGating.coordinatesVisible()) {
 			cir.setReturnValue(false);
+		} else if (key >= GLFW.GLFW_KEY_1 && key <= GLFW.GLFW_KEY_3 && DebugGating.otherInfoHidden()) {
+			cir.setReturnValue(false);
 		}
 	}
 }

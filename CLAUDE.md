@@ -14,6 +14,7 @@ Bearings is a Fabric mod for Minecraft 1.21.1 that hides F3 coordinates and time
 ./gradlew runServer   # launch a dev server
 ./gradlew genSources  # decompile Minecraft for reading vanilla code
 ./gradlew runClient -PnoCompat  # dev client without Trinkets and BetterF3
+./gradlew runClient -PnoBetterF3  # dev client with Trinkets but without BetterF3
 ```
 
 There are no automated tests and no lint setup. Verification is manual, using the Testing section of `Bearings.md`.

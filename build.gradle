@@ -49,10 +49,12 @@ dependencies {
 	modCompileOnly("dev.emi:trinkets:${project.trinkets_version}") { exclude group: 'net.fabricmc.fabric-api' }
 	modCompileOnly "maven.modrinth:betterf3:${project.betterf3_version}"
 
-	// Pass -PnoCompat to test in a dev environment without them.
+	// Pass -PnoCompat to test in a dev environment without them, or -PnoBetterF3 to drop only BetterF3.
 	if (!project.hasProperty('noCompat')) {
 		modLocalRuntime("dev.emi:trinkets:${project.trinkets_version}") { exclude group: 'net.fabricmc.fabric-api' }
-		modLocalRuntime "maven.modrinth:betterf3:${project.betterf3_version}"
+		if (!project.hasProperty('noBetterF3')) {
+			modLocalRuntime "maven.modrinth:betterf3:${project.betterf3_version}"
+		}
 	}
 }
 
