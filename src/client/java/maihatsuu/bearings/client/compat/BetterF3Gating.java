@@ -26,10 +26,10 @@ public final class BetterF3Gating {
 
 	/** Takes a snapshot of the rules, so a module checks the inventory once rather than once per line. */
 	public static Rules currentRules() {
-		return new Rules(DebugGating.coordinatesVisible(), DebugGating.timeVisible(), DebugGating.biomeVisible(), DebugGating.otherInfoHidden());
+		return new Rules(DebugGating.coordinatesVisible(), DebugGating.timeVisible(), DebugGating.otherInfoHidden());
 	}
 
-	public record Rules(boolean coordinates, boolean time, boolean biome, boolean hideOtherInfo) {
+	public record Rules(boolean coordinates, boolean time, boolean hideOtherInfo) {
 		public boolean hides(BaseModule module, String lineId) {
 			if (COORDINATE_LINES.contains(lineId)) {
 				return !coordinates || (hideOtherInfo && !BASIC_COORDINATE_LINES.contains(lineId));
@@ -38,7 +38,7 @@ public final class BetterF3Gating {
 				return !time;
 			}
 			if (lineId.equals("biome")) {
-				return hideOtherInfo && !biome;
+				return hideOtherInfo && !coordinates;
 			}
 			return hideOtherInfo && !isBasic(module);
 		}

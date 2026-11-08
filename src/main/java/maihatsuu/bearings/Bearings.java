@@ -18,7 +18,6 @@ public class Bearings implements ModInitializer {
 	public static final TagKey<Item> SHOWS_COORDINATES = itemTag("shows_coordinates");
 	public static final TagKey<Item> SHOWS_TIME = itemTag("shows_time");
 	public static final TagKey<Item> SHOWS_DEATH_LOCATION = itemTag("shows_death_location");
-	public static final TagKey<Item> SHOWS_BIOME = itemTag("shows_biome");
 
 	@Override
 	public void onInitialize() {

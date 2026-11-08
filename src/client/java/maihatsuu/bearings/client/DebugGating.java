@@ -30,11 +30,6 @@ public final class DebugGating {
 			&& (!config.opsOnlyInCreative || player.isCreative());
 	}
 
-	public static boolean biomeVisible() {
-		LocalPlayer player = Minecraft.getInstance().player;
-		return player != null && Instrument.MAP.isCarriedBy(player);
-	}
-
 	public static boolean coordinatesVisible() {
 		LocalPlayer player = Minecraft.getInstance().player;
 		return !BearingsClient.config.requireCompassForCoordinates || isExempt(player)
@@ -86,7 +81,7 @@ public final class DebugGating {
 	}
 
 	private static void keepBasicGameInformation(List<String> lines) {
-		boolean showBiome = biomeVisible();
+		boolean showBiome = coordinatesVisible();
 		lines.removeIf(line -> !line.startsWith("Minecraft ") && !line.matches("\\d+ fps.*")
 			&& !startsWithAny(line, ITEM_LINES) && !(showBiome && line.startsWith("Biome: ")));
 		if (lines.size() > 2) {

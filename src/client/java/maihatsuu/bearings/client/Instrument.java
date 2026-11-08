@@ -10,7 +10,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -18,16 +17,15 @@ import java.util.function.Predicate;
 public enum Instrument {
 	COMPASS(Bearings.SHOWS_COORDINATES, Items.COMPASS),
 	CLOCK(Bearings.SHOWS_TIME, Items.CLOCK),
-	RECOVERY_COMPASS(Bearings.SHOWS_DEATH_LOCATION, Items.RECOVERY_COMPASS),
-	MAP(Bearings.SHOWS_BIOME, Items.MAP, Items.FILLED_MAP);
+	RECOVERY_COMPASS(Bearings.SHOWS_DEATH_LOCATION, Items.RECOVERY_COMPASS);
 
 	private static final boolean TRINKETS_LOADED = FabricLoader.getInstance().isModLoaded("trinkets");
 
 	private final Predicate<ItemStack> matcher;
 
-	Instrument(TagKey<Item> tag, Item... vanillaItems) {
-		// Vanilla items are checked as well because a server without this mod doesn't send our tags.
-		this.matcher = stack -> stack.is(tag) || Arrays.stream(vanillaItems).anyMatch(item -> stack.is(item));
+	Instrument(TagKey<Item> tag, Item vanillaItem) {
+		// The vanilla item is checked as well because a server without this mod doesn't send our tags.
+		this.matcher = stack -> stack.is(vanillaItem) || stack.is(tag);
 	}
 
 	public boolean isCarriedBy(LocalPlayer player) {
