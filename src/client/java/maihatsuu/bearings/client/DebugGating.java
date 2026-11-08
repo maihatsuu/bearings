@@ -18,7 +18,11 @@ public final class DebugGating {
 		ChatFormatting.UNDERLINE + "Targeted Fluid: "
 	);
 	private static final String TARGETED_SECTION = ChatFormatting.UNDERLINE + "Targeted ";
-	private static final List<String> ITEM_LINES = List.of("XYZ: ", "Facing: ", "Time: ", "Last Death: ");
+	private static final List<String> ITEM_LINES = List.of("XYZ: ", "Facing: ", "Time: ", "Moon: ", "Last Death: ");
+	private static final String[] MOON_PHASES = {
+		"Full Moon", "Waning Gibbous", "Last Quarter", "Waning Crescent",
+		"New Moon", "Waxing Crescent", "First Quarter", "Waxing Gibbous"
+	};
 
 	private DebugGating() {
 	}
@@ -61,6 +65,7 @@ public final class DebugGating {
 			int insertAt = facing + 1;
 			if (showTime) {
 				lines.add(insertAt++, timeLine());
+				lines.add(insertAt++, moonLine());
 			}
 			if (deathLocationVisible()) {
 				String death = deathLine();
@@ -115,6 +120,10 @@ public final class DebugGating {
 		long hours = (ticksIntoDay / 1000L + 6L) % 24L;
 		long minutes = (ticksIntoDay % 1000L) * 60L / 1000L;
 		return String.format(Locale.ROOT, "Time: %02d:%02d (Day %d)", hours, minutes, dayTime / 24000L);
+	}
+
+	private static String moonLine() {
+		return "Moon: " + MOON_PHASES[Minecraft.getInstance().level.getMoonPhase()];
 	}
 
 	private static String deathLine() {

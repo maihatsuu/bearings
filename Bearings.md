@@ -27,7 +27,7 @@ An item "counts" if it's anywhere in your inventory (hotbar, main inventory, off
 | Item | Unlocks in F3 |
 |---|---|
 | Compass | XYZ, block position, chunk, facing direction, targeted block/fluid position |
-| Clock | Time of day (and day number) |
+| Clock | Time of day (and day number), moon phase |
 | Recovery compass | Last death location (dimension + XYZ) |
 
 With `onlyBasicInfo` on, a compass unlocks only XYZ, facing and biome.
