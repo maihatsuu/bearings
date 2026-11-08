@@ -4,11 +4,25 @@ plugins {
 }
 
 repositories {
-	// Add repositories to retrieve artifacts from in here.
-	// You should only use this when depending on other mods because
-	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
-	// for more information about repositories.
+	maven {
+		name = 'TerraformersMC' // Trinkets
+		url = 'https://maven.terraformersmc.com/'
+		content { includeGroup 'dev.emi' }
+	}
+	maven {
+		name = 'Ladysnake' // Cardinal Components, required by Trinkets
+		url = 'https://maven.ladysnake.org/releases'
+		content { includeGroupAndSubgroups 'org.ladysnake' }
+	}
+	exclusiveContent {
+		forRepository {
+			maven {
+				name = 'Modrinth' // BetterF3
+				url = 'https://api.modrinth.com/maven'
+			}
+		}
+		filter { includeGroup 'maven.modrinth' }
+	}
 }
 
 loom {
@@ -30,6 +44,16 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+
+	// Optional integrations: compiled against, never bundled or required.
+	modCompileOnly("dev.emi:trinkets:${project.trinkets_version}") { exclude group: 'net.fabricmc.fabric-api' }
+	modCompileOnly "maven.modrinth:betterf3:${project.betterf3_version}"
+
+	// Pass -PnoCompat to test in a dev environment without them.
+	if (!project.hasProperty('noCompat')) {
+		modLocalRuntime("dev.emi:trinkets:${project.trinkets_version}") { exclude group: 'net.fabricmc.fabric-api' }
+		modLocalRuntime "maven.modrinth:betterf3:${project.betterf3_version}"
+	}
 }
 
 processResources {

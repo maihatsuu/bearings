@@ -1,9 +1,12 @@
 {
 	"required": true,
 	"package": "maihatsuu.bearings.client.mixin",
+	"plugin": "maihatsuu.bearings.client.BearingsMixinPlugin",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
-		"ExampleClientMixin"
+		"DebugScreenOverlayMixin",
+		"KeyboardHandlerMixin",
+		"compat.BetterF3BaseModuleMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
